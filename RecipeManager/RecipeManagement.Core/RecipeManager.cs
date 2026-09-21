@@ -15,13 +15,35 @@ public sealed class RecipeManager : IRecipeManager
     private List<string> ShoppingList = new List<string>();
     private LinkedList<int> CookingPlan = new LinkedList<int>();
     private Queue<string> CookingInstructions = new Queue<string>();
-    private Stack<string> RemovedRecipe = new Stack<string>();
+    private Stack<int> RemovedRecipe = new Stack<int>();
+
     public RecipeManager(IEnumerable<Recipe> recipes)
     {
         // TODO Part A: validate recipes and build Dictionary<int, Recipe>.
         _ = recipes;
+
+        if (recipes == null)
+        {
+            throw new ArgumentNullException(nameof(recipes));
+        }
+
         foreach(Recipe recipe in recipes)
         {
+            if(recipe.Id <= 0)
+            {
+                throw new ArgumentException("Recipe ID must be positive");
+            }
+
+            if (string.IsNullOrWhiteSpace(recipe.Title))
+            {
+                throw new ArgumentException("Recipe title cannot be blank or null");
+            }
+
+            if (RecipeDictionary.ContainsKey(recipe.Id))
+            {
+                throw new ArgumentException("Recipe ID cannot be repeated");
+            }
+            
             RecipeDictionary.Add(recipe.Id, recipe);
         }
     }
