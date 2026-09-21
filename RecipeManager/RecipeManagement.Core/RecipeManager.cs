@@ -11,11 +11,19 @@ namespace RecipeManagement.Core;
 public sealed class RecipeManager : IRecipeManager
 {
     // TODO Part A: add your private collection fields here.
-
+    private Dictionary<int, Recipe> RecipeDictionary = new Dictionary<int, Recipe>();
+    private List<string> ShoppingList = new List<string>();
+    private LinkedList<int> CookingPlan = new LinkedList<int>();
+    private Queue<string> CookingInstructions = new Queue<string>();
+    private Stack<string> RemovedRecipe = new Stack<string>();
     public RecipeManager(IEnumerable<Recipe> recipes)
     {
         // TODO Part A: validate recipes and build Dictionary<int, Recipe>.
         _ = recipes;
+        foreach(Recipe recipe in recipes)
+        {
+            RecipeDictionary.Add(recipe.Id, recipe);
+        }
     }
 
     public int RecipeCount => 0;
