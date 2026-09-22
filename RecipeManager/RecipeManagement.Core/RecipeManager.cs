@@ -22,33 +22,43 @@ public sealed class RecipeManager : IRecipeManager
     // Stores recently removed recipe IDs.
     private Stack<int> RemovedRecipe = new Stack<int>();
 
+    /// <summary>
+    /// Initializes a new RecipeManager and builds the recipe dictionary from JSON file.
+    /// </summary>
+    /// <param name="recipes">The collection of recipes used to build the recipe dictionary.</param>
+    /// <exception cref="ArgumentNullException">Throw an error when the recipes collection is null</exception>
+    /// <exception cref="ArgumentException">Throw an error when a recipe has a non-positive ID, a blank title, or a duplicate ID/</exception>
     public RecipeManager(IEnumerable<Recipe> recipes)
     {
         // TODO Part A: validate recipes and build Dictionary<int, Recipe>.
         _ = recipes;
-
+        // Check if recipes are null, then throw an error.
         if (recipes == null)
         {
             throw new ArgumentNullException(nameof(recipes));
         }
-
+        // Validate every recipe and add it to the dictionary.
         foreach(Recipe recipe in recipes)
         {
+            // Recipe IDs must be positive.
             if(recipe.Id <= 0)
             {
                 throw new ArgumentException("Recipe ID must be positive");
             }
 
+            // Recipe titles cannot be null, empty or whitespace.
             if (string.IsNullOrWhiteSpace(recipe.Title))
             {
                 throw new ArgumentException("Recipe title cannot be blank or null");
             }
 
+            // Every recipe ID must be unique.
             if (RecipeDictionary.ContainsKey(recipe.Id))
             {
                 throw new ArgumentException("Recipe ID cannot be repeated");
             }
 
+            // Add the validated recipe using its ID as the dictionary key.
             RecipeDictionary.Add(recipe.Id, recipe);
         }
     }
