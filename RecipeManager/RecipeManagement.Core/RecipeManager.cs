@@ -77,7 +77,11 @@ public sealed class RecipeManager : IRecipeManager
 
     public Recipe? FindRecipe(int recipeId)
     {
-        return RecipeDictionary[recipeId];
+        if(RecipeDictionary.ContainsKey(recipeId))
+        {
+            return RecipeDictionary[recipeId];
+        }
+        return null;
     }
 
     public bool RemoveRecipe(int recipeId)
