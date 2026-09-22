@@ -96,6 +96,10 @@ public sealed class RecipeManager : IRecipeManager
 
     public int AddIngredientsToShoppingList(int recipeId)
     {
+        if (!RecipeDictionary.ContainsKey(recipeId))
+        {
+            return 0;
+        }
         ShoppingList.AddRange(RecipeDictionary[recipeId].Ingredients);
         return RecipeDictionary[recipeId].Ingredients.Count;
     }
