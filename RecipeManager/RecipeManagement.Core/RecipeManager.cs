@@ -86,6 +86,10 @@ public sealed class RecipeManager : IRecipeManager
 
     public bool RemoveRecipe(int recipeId)
     {
+        if (!RecipeDictionary.ContainsKey(recipeId) || CookingPlan.Contains(recipeId))
+        {
+            return false;
+        }
         RecipeDictionary.Remove(recipeId);
         return true;
     }
