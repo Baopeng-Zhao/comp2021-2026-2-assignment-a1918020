@@ -101,12 +101,20 @@ public sealed class RecipeManager : IRecipeManager
         return true;
     }
 
+    /// <summary>
+    /// Finds a recipe by its recipe ID.
+    /// </summary>
+    /// <param name="recipeId">The ID of the recipe to find.</param>
+    /// <returns>The matching Recipe if the ID exists; otherwise null.</returns>
     public Recipe? FindRecipe(int recipeId)
     {
+        // Check whether the recipe ID exists in the dictionary.
         if(RecipeDictionary.ContainsKey(recipeId))
         {
+            // Return the matched recipe.
             return RecipeDictionary[recipeId];
         }
+        // If it does not exist, return null.
         return null;
     }
 
