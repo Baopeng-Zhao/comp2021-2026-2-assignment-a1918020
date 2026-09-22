@@ -69,23 +69,34 @@ public sealed class RecipeManager : IRecipeManager
     public int PendingInstructionCount => 0;
     public int RemovedRecipeCount => 0;
 
+    /// <summary>
+    /// Adds a new recipe to the recipe dictionary.
+    /// </summary>
+    /// <param name="recipe">recipe to be added</param>
+    /// <returns>if the recipe is validated and added successfully, return ture; otherwise false.</returns>
+    /// <exception cref="ArgumentNullException">Throw an error when recipe is null</exception>
     public bool AddRecipe(Recipe recipe)
     {
+        //Reject a null recipe
         if(recipe == null)
         {
             throw new ArgumentNullException(nameof(recipe));
         }
+        //Recipe IDs must be positive
         if(recipe.Id < 0)
         {
             return false;
         }
+        // Recipe title cannot be null, empry or whitespace.
         if(string.IsNullOrWhiteSpace(recipe.Title))
         {
             return false;
         }
+        // Recipe IDs should be unique.
         if(RecipeDictionary.ContainsKey(recipe.Id)){
             return false;
         }
+        // Add the validated recipe to the dictionary.
         RecipeDictionary.Add(recipe.Id, recipe);
         return true;
     }
