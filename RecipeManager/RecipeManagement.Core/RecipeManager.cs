@@ -56,6 +56,21 @@ public sealed class RecipeManager : IRecipeManager
 
     public bool AddRecipe(Recipe recipe)
     {
+        if(recipe == null)
+        {
+            throw new ArgumentNullException(nameof(recipe));
+        }
+        if(recipe.Id < 0)
+        {
+            return false;
+        }
+        if(string.IsNullOrWhiteSpace(recipe.Title))
+        {
+            return false;
+        }
+        if(RecipeDictionary.ContainsKey(recipe.Id)){
+            return false;
+        }
         RecipeDictionary.Add(recipe.Id, recipe);
         return true;
     }
