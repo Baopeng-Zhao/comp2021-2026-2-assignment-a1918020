@@ -118,13 +118,21 @@ public sealed class RecipeManager : IRecipeManager
         return null;
     }
 
+    /// <summary>
+    /// Removes a recipe from the recipe dictionary
+    /// </summary>
+    /// <param name="recipeId">The ID of the recipe to remove</param>
+    /// <returns>If the recipe does not exist or exist in CookingPlan, return false; otherwise true.</returns>
     public bool RemoveRecipe(int recipeId)
     {
+        // Return false if the recipe does not exist or exist in RecipeDictionary.
         if (!RecipeDictionary.ContainsKey(recipeId) || CookingPlan.Contains(recipeId))
         {
             return false;
         }
+        // Remove the recipe from the dictionary.
         RecipeDictionary.Remove(recipeId);
+        // if remove successfully, return true.
         return true;
     }
 
