@@ -43,7 +43,7 @@ public sealed class RecipeManager : IRecipeManager
             {
                 throw new ArgumentException("Recipe ID cannot be repeated");
             }
-            
+
             RecipeDictionary.Add(recipe.Id, recipe);
         }
     }
@@ -71,15 +71,19 @@ public sealed class RecipeManager : IRecipeManager
         return true;
     }
 
-    public int AddIngredientsToShoppingList(int recipeId) =>
-        throw new NotImplementedException("Part A: implement AddIngredientsToShoppingList.");
+    public int AddIngredientsToShoppingList(int recipeId)
+    {
+        ShoppingList.AddRange(RecipeDictionary[recipeId].Ingredients);
+        return RecipeDictionary[recipeId].Ingredients.Count;
+    }
 
-    public IReadOnlyList<string> GetShoppingList() =>
-        throw new NotImplementedException("Part A: implement GetShoppingList.");
+    public IReadOnlyList<string> GetShoppingList(){
+        return ShoppingList;
+    }
 
-    public void ClearShoppingList() =>
-        throw new NotImplementedException("Part A: implement ClearShoppingList.");
-
+    public void ClearShoppingList(){
+        ShoppingList.Clear();
+    }
     public bool AddRecipeToCookingPlan(int recipeId) =>
         throw new NotImplementedException("Part A: implement AddRecipeToCookingPlan.");
 
