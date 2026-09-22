@@ -136,13 +136,21 @@ public sealed class RecipeManager : IRecipeManager
         return true;
     }
 
+    /// <summary>
+    /// Adds the ingredients of the recipe to the shopping list.
+    /// </summary>
+    /// <param name="recipeId">The ID of the recipe which ingredients will be added.</param>
+    /// <returns>The number of ingredients added to the shopping list, or return 0 if the recipe ID does not exist.</returns>
     public int AddIngredientsToShoppingList(int recipeId)
     {
+        // Return 0 if the recipe does not exist.
         if (!RecipeDictionary.ContainsKey(recipeId))
         {
             return 0;
         }
+        // Add all ingredients in the recipe to the shopping list.
         ShoppingList.AddRange(RecipeDictionary[recipeId].Ingredients);
+        // Return the number of ingredients added.
         return RecipeDictionary[recipeId].Ingredients.Count;
     }
 
