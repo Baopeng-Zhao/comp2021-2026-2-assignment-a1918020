@@ -105,7 +105,7 @@ public sealed class RecipeManager : IRecipeManager
     }
 
     public IReadOnlyList<string> GetShoppingList(){
-        return ShoppingList;
+        return ShoppingList.AsReadOnly();
     }
 
     public void ClearShoppingList(){
