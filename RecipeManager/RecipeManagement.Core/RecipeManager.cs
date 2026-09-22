@@ -83,7 +83,7 @@ public sealed class RecipeManager : IRecipeManager
             throw new ArgumentNullException(nameof(recipe));
         }
         //Recipe IDs must be positive
-        if(recipe.Id < 0)
+        if(recipe.Id <= 0)
         {
             return false;
         }
