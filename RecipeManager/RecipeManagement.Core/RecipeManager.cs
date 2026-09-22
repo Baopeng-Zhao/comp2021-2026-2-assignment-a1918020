@@ -154,10 +154,17 @@ public sealed class RecipeManager : IRecipeManager
         return RecipeDictionary[recipeId].Ingredients.Count;
     }
 
+    /// <summary>
+    /// Returns the current shopping list as a read-only list.
+    /// </summary>
+    /// <returns>a read only view of the current shopping list.</returns>
     public IReadOnlyList<string> GetShoppingList(){
         return ShoppingList.AsReadOnly();
     }
 
+    /// <summary>
+    /// Removes all items in the shopping list.
+    /// </summary>
     public void ClearShoppingList(){
         ShoppingList.Clear();
     }
