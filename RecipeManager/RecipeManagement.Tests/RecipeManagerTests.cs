@@ -240,7 +240,7 @@ public sealed class RecipeManagerTests
         recipes.Add(recipe);
         RecipeManager manager = new RecipeManager(recipes);
         Recipe? result = manager.FindRecipe(1);
-        Assert.Equal(recipe, result);
+        Assert.Null(result);
     }
 
     [Fact]
@@ -254,5 +254,45 @@ public sealed class RecipeManagerTests
         RecipeManager manager = new RecipeManager(recipes);
         Recipe? result = manager.FindRecipe(2);
         Assert.Equal(recipe, result);
+    }
+
+    [Fact]
+    public void RemoveRecipe_ReturnsFalse_WhenRecipeIdDoesNotExist()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.RemoveRecipe(2);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RemoveRecipe_ReturnsFalse_WhenRecipeIsInCookingPlan()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddRecipeToCookingPlan(1);
+        bool result = manager.RemoveRecipe(1);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RemoveRecipe_ReturnsTure_WhenRecipeCanBeRemoved()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.RemoveRecipe(1);
+        Assert.True(result);
     }
 }
