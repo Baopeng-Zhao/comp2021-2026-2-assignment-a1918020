@@ -99,6 +99,7 @@ public sealed class RecipeManagerTests
     {
         Recipe recipe = new Recipe{};
         recipe.Title="";
+        recipe.Id = 1;
         List<Recipe> recipes = new List<Recipe>();
         recipes.Add(recipe);
         void CreateManager()
@@ -111,7 +112,8 @@ public sealed class RecipeManagerTests
     public void Constructor_ThrowsArgumentException_WhenRecipeTitleIsWhitespace()
     {
         Recipe recipe = new Recipe{};
-        recipe.Title="   ";
+        recipe.Title = "   ";
+        recipe.Id = 1;
         List<Recipe> recipes = new List<Recipe>();
         recipes.Add(recipe);
         void CreateManager()
@@ -125,6 +127,7 @@ public sealed class RecipeManagerTests
     {
         Recipe recipe = new Recipe{};
         recipe.Title = null!;
+        recipe.Id = 1;
         List<Recipe> recipes = new List<Recipe>();
         recipes.Add(recipe);
         void CreateManager()
@@ -139,7 +142,9 @@ public sealed class RecipeManagerTests
         Recipe recipe1 = new Recipe{};
         Recipe recipe2 = new Recipe{};
         recipe1.Id = 1;
-        recipe2.Id = 2;
+        recipe1.Title = "a dish";
+        recipe2.Id = 1;
+        recipe2.Title = "another dish";
         List<Recipe> recipes = new List<Recipe>{recipe1, recipe2};
         void CreateManager()
         {
@@ -162,5 +167,66 @@ public sealed class RecipeManagerTests
         Recipe? result2 = manager.FindRecipe(2);
         Assert.Equal(recipe1,result1);
         Assert.Equal(recipe2,result2);
+    }
+
+    [Fact]
+    public void AddRecipe_ThrowsArgumentNullException_WhenRecipeIsNull()
+    {
+        Recipe? recipe = null;
+        RecipeManager manager = new RecipeManager(new List<Recipe>());
+        void AddNullRecipe()
+        {
+            manager.AddRecipe(recipe!);
+        }
+        Assert.Throws<ArgumentNullException>(AddNullRecipe);
+    }
+    
+    [Fact]
+    public void AddRecipe_ReturnFalse_WhenRecipeIdIsNotPositive()
+    {
+        Recipe? recipe = new Recipe();
+        recipe.Id = -1;
+        recipe.Title = "a dish";
+        RecipeManager manager = new RecipeManager(new List<Recipe>());
+        bool result = manager.AddRecipe(recipe);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void AddRecipe_ReturnFalse_WhenRecipeTitleIsBlank()
+    {
+        Recipe? recipe = new Recipe();
+        recipe.Title = "   ";
+        recipe.Id = 1;
+        RecipeManager manager = new RecipeManager(new List<Recipe>());
+        bool result = manager.AddRecipe(recipe);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void AddRecipe_ReturnFalse_WhenRecipeIdIsAlreadyExists()
+    {
+        Recipe? recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        RecipeManager manager = new RecipeManager(new List<Recipe>(recipes));
+        Recipe? recipe2 = new Recipe();
+        recipe2.Id = 1;
+        recipe2.Title = "another dish";
+        bool result = manager.AddRecipe(recipe2);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void AddRecipe_ReturnsTrue_WhenRecipeIsValid()
+    {
+        Recipe? recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        RecipeManager manager = new RecipeManager(new List<Recipe>());
+        bool result = manager.AddRecipe(recipe);
+        Assert.True(result);
     }
 }
