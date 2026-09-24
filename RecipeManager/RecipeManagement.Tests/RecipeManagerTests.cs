@@ -240,7 +240,7 @@ public sealed class RecipeManagerTests
         recipes.Add(recipe);
         RecipeManager manager = new RecipeManager(recipes);
         Recipe? result = manager.FindRecipe(1);
-        Assert.Null(result);
+        Assert.Equal(recipe, result);
     }
 
     [Fact]
@@ -253,7 +253,7 @@ public sealed class RecipeManagerTests
         recipes.Add(recipe);
         RecipeManager manager = new RecipeManager(recipes);
         Recipe? result = manager.FindRecipe(2);
-        Assert.Equal(recipe, result);
+        Assert.Null(result);
     }
 
     [Fact]
@@ -294,5 +294,36 @@ public sealed class RecipeManagerTests
         RecipeManager manager = new RecipeManager(recipes);
         bool result = manager.RemoveRecipe(1);
         Assert.True(result);
+    }
+
+    [Fact]
+    public void AddIngredientsToShoppingList_ReturnsZero_WhenRecipeIdDoesNotExist()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        recipe.Ingredients = new List<string>{"tomato","beef"};
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        int result = manager.AddIngredientsToShoppingList(2);
+        Assert.Equal(0, result);
+    }
+
+    [Fact]
+    public void AddIngredientsToShoppingList_AddsIngredients_WhenRecipeIdExists()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        recipe.Ingredients = new List<string>{"tomato", "beef"};
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        int result = manager.AddIngredientsToShoppingList(1);
+        Assert.Equal(2, result);
+        IReadOnlyList<string> shoppingList = manager.GetShoppingList();
+        Assert.Equal("tomato", shoppingList[0]);
+        Assert.Equal("beef", shoppingList[1]);
     }
 }
