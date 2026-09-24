@@ -326,4 +326,36 @@ public sealed class RecipeManagerTests
         Assert.Equal("tomato", shoppingList[0]);
         Assert.Equal("beef", shoppingList[1]);
     }
+
+    [Fact]
+    public void GetShoppingList_ReturnsShoppingList_WhenItemsExist()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        recipe.Ingredients = new List<string>{"beef","tomato"};
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddIngredientsToShoppingList(1);
+        IReadOnlyList<string> result = manager.GetShoppingList();
+        Assert.Equal("beef", result[0]);
+        Assert.Equal("tomato", result[1]);
+    }
+
+    [Fact]
+    public void ClearShoppingList_RemovesAllItems()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        recipe.Ingredients = new List<string>{"tomato", "beef"};
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddIngredientsToShoppingList(1);
+        manager.ClearShoppingList();
+        IReadOnlyList<string> result = manager.GetShoppingList();
+        Assert.Empty(result);
+    }
 }
