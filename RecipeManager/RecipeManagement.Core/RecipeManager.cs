@@ -63,11 +63,11 @@ public sealed class RecipeManager : IRecipeManager
         }
     }
 
-    public int RecipeCount => 0;
-    public int ShoppingItemCount => 0;
-    public int CookingPlanCount => 0;
-    public int PendingInstructionCount => 0;
-    public int RemovedRecipeCount => 0;
+    public int RecipeCount{get{return RecipeDictionary.Count;}}
+    public int ShoppingItemCount{get{return ShoppingList.Count;}}
+    public int CookingPlanCount{get{return CookingPlan.Count;}}
+    public int PendingInstructionCount{get{return CookingInstructions.Count;}}
+    public int RemovedRecipeCount{get{return RemovedRecipe.Count;}}
 
     /// <summary>
     /// Adds a new recipe to the recipe dictionary.
