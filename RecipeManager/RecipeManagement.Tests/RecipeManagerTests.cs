@@ -229,4 +229,30 @@ public sealed class RecipeManagerTests
         bool result = manager.AddRecipe(recipe);
         Assert.True(result);
     }
+
+    [Fact]
+    public void FindRecipe_ReturnRecipe_WhenRecipeIdExists()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        Recipe? result = manager.FindRecipe(1);
+        Assert.Equal(recipe, result);
+    }
+
+    [Fact]
+    public void FindRecipe_ReturnsNull_WhenRecipeIdDoesNotExist()
+    {
+        Recipe recipe = new Recipe();
+         recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        Recipe? result = manager.FindRecipe(2);
+        Assert.Equal(recipe, result);
+    }
 }
