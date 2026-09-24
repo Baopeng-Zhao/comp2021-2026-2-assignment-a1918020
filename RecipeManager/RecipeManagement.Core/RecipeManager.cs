@@ -185,9 +185,23 @@ public sealed class RecipeManager : IRecipeManager
         return true;
     }
 
-    public bool RemoveRecipeFromCookingPlan(int recipeId) =>
-        throw new NotImplementedException("Part A: implement RemoveRecipeFromCookingPlan.");
-
+    /// <summary>
+    /// Remove recipe from cookingplan and add it to the RemovedRecipe.
+    /// </summary>
+    /// <param name="recipeId">The id of the cooking plan to be removed</param>
+    /// <returns>Return false if recipe does not exist in cooking plan. Otherwise, return true.</returns>
+    public bool RemoveRecipeFromCookingPlan(int recipeId){
+        // If recipe does not exist in cooking plan, return false
+        if (!CookingPlan.Contains(recipeId))
+        {
+            return false;
+        }
+        // Remove recipe in cooking plan
+        CookingPlan.Remove(recipeId);
+        // Add recipe to stack.
+        RemovedRecipe.Push(recipeId);
+        return true;
+    }
     public bool RestoreLastRemovedRecipe() =>
         throw new NotImplementedException("Part A: implement RestoreLastRemovedRecipe.");
 
