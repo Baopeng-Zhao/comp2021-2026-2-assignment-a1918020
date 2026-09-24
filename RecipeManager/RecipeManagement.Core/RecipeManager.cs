@@ -168,8 +168,22 @@ public sealed class RecipeManager : IRecipeManager
     public void ClearShoppingList(){
         ShoppingList.Clear();
     }
-    public bool AddRecipeToCookingPlan(int recipeId) =>
-        throw new NotImplementedException("Part A: implement AddRecipeToCookingPlan.");
+
+    /// <summary>
+    /// Add Recipe to the Cooking Plan.
+    /// </summary>
+    /// <param name="recipeId">The Id of the recipe to be added</param>
+    /// <returns>If recipe is in RecipeDictionary or it already exists in cookingplan, return false. Otherwise, return true.</returns>
+    public bool AddRecipeToCookingPlan(int recipeId){
+        // Returns false if recipe does not exist in RecipeDictionary or it already exists in cookingplan.
+        if (!RecipeDictionary.ContainsKey(recipeId) || CookingPlan.Contains(recipeId))
+        {
+            return false;
+        }
+        // Add recipeId to the cookingplan.
+        CookingPlan.AddLast(recipeId);
+        return true;
+    }
 
     public bool RemoveRecipeFromCookingPlan(int recipeId) =>
         throw new NotImplementedException("Part A: implement RemoveRecipeFromCookingPlan.");
