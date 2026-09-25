@@ -264,8 +264,28 @@ public sealed class RecipeManager : IRecipeManager
         return ListCookingPlan.AsReadOnly();
     }
 
-    public bool StartCooking(int recipeId) =>
-        throw new NotImplementedException("Part A: implement StartCooking.");
+    /// <summary>
+    /// Starts cooking a recipe and Loads its instructions into the cooking queue.
+    /// </summary>
+    /// <param name="recipeId">The ID of the recipe to start cooking</param>
+    /// <returns>Returns true if the recipe exists and has at least one instruction; otherwise returns false</returns>
+    public bool StartCooking(int recipeId){
+        // Check if the recipe exists and has at least one instruction.
+        if(RecipeDictionary.ContainsKey(recipeId) && FindRecipe(recipeId)!.Instructions.Count >= 1)
+        {
+            // Clear cooking instructions
+            CookingInstructions.Clear();
+            // Add each instruction to the queue in its original ordr
+            foreach (string instruction in FindRecipe(recipeId)!.Instructions)
+            {
+                CookingInstructions.Enqueue(instruction);
+            }
+            // Return true when everything work successfully
+            return true;
+        }
+        // Return false if the recipe does not exist or has no instructions.
+        return false;
+    }
 
     public string? PeekNextInstruction() =>
         throw new NotImplementedException("Part A: implement PeekNextInstruction.");
