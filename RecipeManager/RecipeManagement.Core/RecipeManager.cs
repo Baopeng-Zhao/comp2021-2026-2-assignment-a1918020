@@ -202,20 +202,27 @@ public sealed class RecipeManager : IRecipeManager
         RemovedRecipe.Push(recipeId);
         return true;
     }
-    public bool RestoreLastRemovedRecipe(){
+
+    /// <summary>
+    /// Restores the recently removed recipe to the cooking plan
+    /// </summary>
+    /// <returns>Return true if the recipe is restored successfully; otherwise return fasle</returns>
+    public bool RestoreLastRemovedRecipe()
+    {
+        // Return false if there are no removed recipes in the stack.
         if(RemovedRecipe.Count == 0)
         {
             return false;
         }
-
+        // Remove and store the recently removed recipe ID from the stack
         int recipeId = RemovedRecipe.Pop();
-
+        // Restore the recipe if it still exists and is not already in the cooking plan.
         if(RecipeDictionary.ContainsKey(recipeId) && !CookingPlan.Contains(recipeId))
         {
             CookingPlan.AddLast(recipeId);
             return true;
         }
-        
+        // Return false if the recipe cannot be restored.
         return false;
     }
     public int? PeekLastRemovedRecipe() =>
