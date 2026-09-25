@@ -287,8 +287,19 @@ public sealed class RecipeManager : IRecipeManager
         return false;
     }
 
-    public string? PeekNextInstruction() =>
-        throw new NotImplementedException("Part A: implement PeekNextInstruction.");
+    /// <summary>
+    /// Peek the instruction in the current recipe
+    /// </summary>
+    /// <returns>Return null if the CookingInstructions is empty; otherwise, return current Instruction</returns>
+    public string? PeekNextInstruction(){
+        // Return null if there is an empty CookingInstructions.
+        if(CookingInstructions.Count == 0)
+        {
+            return null;
+        }
+        // Return the Instructions at the front without removing it.
+        return CookingInstructions.Peek();
+    }
 
     public string? CompleteNextInstruction() =>
         throw new NotImplementedException("Part A: implement CompleteNextInstruction.");
