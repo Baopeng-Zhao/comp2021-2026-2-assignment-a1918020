@@ -386,7 +386,7 @@ public sealed class RecipeManagerTests
         bool result = manager.AddRecipeToCookingPlan(1);
         Assert.False(result);
     }
-    
+
     [Fact]
     public void AddRecipeToCookingPlan_ReturnsTrue_WhenRecipeExists()
     {
@@ -397,6 +397,33 @@ public sealed class RecipeManagerTests
         recipes.Add(recipe);
         RecipeManager manager = new RecipeManager(recipes);
         bool result = manager.AddRecipeToCookingPlan(1);
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void RemoveRecipeFromCookingPlan_ReturnFalse_WhenRecipeIsNotInCookingPlan()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.RemoveRecipeFromCookingPlan(1);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RemoveRecipeFromCookingPlan_ReturnTrue_WhenRecipeIsInCookingPlan()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddRecipeToCookingPlan(1);
+        bool result = manager.RemoveRecipeFromCookingPlan(1);
         Assert.True(result);
     }
 }
