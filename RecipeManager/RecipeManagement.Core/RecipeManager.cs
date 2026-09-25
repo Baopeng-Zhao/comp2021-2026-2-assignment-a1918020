@@ -301,8 +301,21 @@ public sealed class RecipeManager : IRecipeManager
         return CookingInstructions.Peek();
     }
 
-    public string? CompleteNextInstruction() =>
-        throw new NotImplementedException("Part A: implement CompleteNextInstruction.");
+    /// <summary>
+    /// Completes and removes the next cooking instruction from the queue.
+    /// </summary>
+    /// <returns>Return the completed instruction; Returns null if the queue is empty</returns>
+    public string? CompleteNextInstruction(){
+        // Return null if there is an empty CookingInstructions.
+        if(CookingInstructions.Count == 0)
+        {
+            return null;
+        }
+        // Remove and store the completed instruction.
+        string instruction = CookingInstructions.Dequeue();
+        // Returns the completed instruction.
+        return instruction;
+    }
 
     public IReadOnlyList<Recipe> SearchByTitle(string searchText) =>
         throw new NotImplementedException("Part B: implement SearchByTitle.");
