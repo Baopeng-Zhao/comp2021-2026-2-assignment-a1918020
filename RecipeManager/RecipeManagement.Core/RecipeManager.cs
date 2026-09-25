@@ -241,8 +241,28 @@ public sealed class RecipeManager : IRecipeManager
         return recipeId;
     }
 
-    public IReadOnlyList<int> GetCookingPlan() =>
-        throw new NotImplementedException("Part A: implement GetCookingPlan.");
+    /// <summary>
+    /// Return recipe IDs in likned-list order without exposing the internal LinkedList directly
+    /// </summary>
+    /// <returns>Return a readonly List which contains the recipe IDs in cooking plan order</returns>
+    public IReadOnlyList<int> GetCookingPlan(){
+        // Get the number of recipe IDs in the cooking plan.
+        int count = CookingPlan.Count;
+        // Start from the first node in the cooking plan.
+        LinkedListNode<int>? node = CookingPlan.First;
+        // Create a new list to store recipe IDs from the cooking plan
+        List<int> ListCookingPlan = new List<int>();
+        // Iteration
+        for(int i = 0; i < count; i++)
+        {
+            // Add value of current node to the list.
+            ListCookingPlan.Add(node!.Value);
+            // Move to next node.
+            node = node.Next;
+        }
+        // Return a readonly List.
+        return ListCookingPlan.AsReadOnly();
+    }
 
     public bool StartCooking(int recipeId) =>
         throw new NotImplementedException("Part A: implement StartCooking.");
