@@ -506,11 +506,11 @@ public sealed class RecipeManagerTests
         recipe1.Id = 1;
         recipe1.Title = "first dish";
         Recipe recipe2 = new Recipe();
-        recipe1.Id = 2;
-        recipe1.Title = "Second dish";
+        recipe2.Id = 2;
+        recipe2.Title = "Second dish";
         Recipe recipe3 = new Recipe();
-        recipe1.Id = 3;
-        recipe1.Title = "Third dish";
+        recipe3.Id = 3;
+        recipe3.Title = "Third dish";
 
         List<Recipe> recipes = new List<Recipe>();
         recipes.Add(recipe1);
@@ -593,7 +593,7 @@ public sealed class RecipeManagerTests
         RecipeManager manager = new RecipeManager(recipes);
         manager.StartCooking(1);
         string? result = manager.PeekNextInstruction();
-        Assert.Equal("beef soup", result);
+        Assert.Equal("tomato", result);
     }
 
     [Fact]
@@ -621,6 +621,6 @@ public sealed class RecipeManagerTests
         RecipeManager manager = new RecipeManager(recipes);
         manager.StartCooking(1);
         string? result = manager.CompleteNextInstruction();
-        Assert.Equal("beef soup", result);
+        Assert.Equal("tomato", result);
     }
 }
