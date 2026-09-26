@@ -498,4 +498,32 @@ public sealed class RecipeManagerTests
         int? result = manager.PeekLastRemovedRecipe();
         Assert.Equal(1, result);
     }
+
+    [Fact]
+    public void GetCookingPlan_ReturnsRecipeIdsInPlanOrder_WhenRecipesAreAdded()
+    {
+        Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "first dish";
+        Recipe recipe2 = new Recipe();
+        recipe1.Id = 2;
+        recipe1.Title = "Second dish";
+        Recipe recipe3 = new Recipe();
+        recipe1.Id = 3;
+        recipe1.Title = "Third dish";
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        recipes.Add(recipe2);
+        recipes.Add(recipe3);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddRecipeToCookingPlan(1);
+        manager.AddRecipeToCookingPlan(2);
+        manager.AddRecipeToCookingPlan(3);
+
+        IReadOnlyList<int> result = manager.GetCookingPlan();
+        Assert.Equal(1, result[0]);
+        Assert.Equal(2, result[1]);
+        Assert.Equal(3, result[2]);
+    }
 }
