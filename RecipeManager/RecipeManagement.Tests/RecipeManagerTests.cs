@@ -470,4 +470,32 @@ public sealed class RecipeManagerTests
         bool result = manager.RestoreLastRemovedRecipe();
         Assert.True(result);
     }
+
+    [Fact]
+    public void PeekLastRemovedRecipe_ReturnsNull_WhenRemovedRecipeStackIsEmpty()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        int? result = manager.PeekLastRemovedRecipe();
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void PeekLastRemovedRecipe_ReturnsRecipeId_WhenRemovedRecipeStackIsNotEmpty()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddRecipeToCookingPlan(1);
+        manager.RemoveRecipeFromCookingPlan(1);
+        int? result = manager.PeekLastRemovedRecipe();
+        Assert.Equal(1, result);
+    }
 }
