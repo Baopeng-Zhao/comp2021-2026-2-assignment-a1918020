@@ -567,4 +567,32 @@ public sealed class RecipeManagerTests
         bool result = manager.StartCooking(1);
         Assert.True(result);
     }
+
+    [Fact]
+    public void PeekNextInstruction_ReturnNull_WhenCookingInstructionsIsEmpty()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        string? result = manager.PeekNextInstruction();
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void PeekNextInstruction_ReturnNextInstruction_WhenCookingInstructionHasInstructions()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        recipe.Instructions = new List<string>{"tomato", "beef"};
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add (recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.StartCooking(1);
+        string? result = manager.PeekNextInstruction();
+        Assert.Equal("beef soup", result);
+    }
 }
