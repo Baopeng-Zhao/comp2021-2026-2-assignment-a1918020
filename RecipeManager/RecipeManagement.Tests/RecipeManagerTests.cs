@@ -426,4 +426,48 @@ public sealed class RecipeManagerTests
         bool result = manager.RemoveRecipeFromCookingPlan(1);
         Assert.True(result);
     }
+
+    [Fact]
+    public void RestoreLastRemovedRecipe_ReturnsFalse_WhenRemovedRecipeStackIsEmpty()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.RestoreLastRemovedRecipe();
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RestoreLastRemovedRecipe_ReturnsFalse_WhenRecipeIsAlreadyInCookingPlan()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddRecipeToCookingPlan(1);
+        manager.RemoveRecipeFromCookingPlan(1);
+        manager.AddRecipeToCookingPlan(1);
+        bool result = manager.RestoreLastRemovedRecipe();
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void RestoreLastRemovedRecipe_ReturnsTrue_WhenRecipeCanBeRestored()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddRecipeToCookingPlan(1);
+        manager.RemoveRecipeFromCookingPlan(1);
+        bool result = manager.RestoreLastRemovedRecipe();
+        Assert.True(result);
+    }
 }
