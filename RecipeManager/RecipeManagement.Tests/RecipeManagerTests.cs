@@ -526,4 +526,45 @@ public sealed class RecipeManagerTests
         Assert.Equal(2, result[1]);
         Assert.Equal(3, result[2]);
     }
+
+    [Fact]
+    public void StartCooking_ReturnsFalse_WhenRecipeDoesNotExist()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.StartCooking(2);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void StartCooking_ReturnsFalse_WhenRecipeHasNoInstructions()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        recipe.Instructions = new List<string>();
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.StartCooking(1);
+        Assert.False(result);
+    }
+
+    [Fact]
+    public void StartCooking_ReturnsTrue_WhenRecipeHasInstructionsAndExist()
+    {
+        Recipe recipe = new Recipe();
+        recipe.Id = 1;
+        recipe.Title = "a dish";
+        recipe.Instructions = new List<string>{"tomato", "beef"};
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe);
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.StartCooking(1);
+        Assert.True(result);
+    }
 }
