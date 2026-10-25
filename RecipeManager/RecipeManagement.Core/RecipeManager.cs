@@ -343,8 +343,27 @@ public sealed class RecipeManager : IRecipeManager
         return ResultRecipes;
     }
 
-    public IReadOnlyList<Recipe> SearchByIngredient(string searchText) =>
-        throw new NotImplementedException("Part B: implement SearchByIngredient.");
+    public IReadOnlyList<Recipe> SearchByIngredient(string searchText){
+        // Initialize a variable ReturnedRecipeID
+        var ReturnedRecipeID = from recipeId in RecipeDictionary
+                                // The filtering condition is that the recipes containing searchText in their Ingredients.
+                                where recipeId.Value.Ingredients.Any(ingredient=>ingredient.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                                select recipeId.Value;
+        // Initialize a List called ResultRecipes
+        List<Recipe> ResultRecipes = new List<Recipe>();
+        // Iterate each recipe which is filltered
+        foreach(var recipe in ReturnedRecipeID)
+        {
+            // Repeated recipe cannot be added into ResultRecipes.
+            // Only Return each recipe once.
+            if (!ResultRecipes.Contains(recipe))
+            {
+                ResultRecipes.Add(recipe);
+            }
+        }
+
+        return ResultRecipes;
+    }
 
     public IReadOnlyList<Recipe> GetHighestProteinRecipes(int count) =>
         throw new NotImplementedException("Part B: implement GetHighestProteinRecipes.");
