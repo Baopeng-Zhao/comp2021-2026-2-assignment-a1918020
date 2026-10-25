@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RecipeManagement.Core;
 
@@ -21,6 +22,8 @@ public sealed class RecipeManager : IRecipeManager
     private Queue<string> CookingInstructions = new Queue<string>();
     // Stores recently removed recipe IDs.
     private Stack<int> RemovedRecipe = new Stack<int>();
+    // Stores recipes which is saved.
+    private List<int> SavedRecipes = new List<int>();
 
     /// <summary>
     /// Initializes a new RecipeManager and builds the recipe dictionary from JSON file.
@@ -317,8 +320,28 @@ public sealed class RecipeManager : IRecipeManager
         return instruction;
     }
 
-    public IReadOnlyList<Recipe> SearchByTitle(string searchText) =>
-        throw new NotImplementedException("Part B: implement SearchByTitle.");
+    public IReadOnlyList<Recipe> SearchByTitle(string searchText)
+    {
+        // Initialize a variable ReturnedRecipeID
+        var ReturnedRecipeID = from recipeId in RecipeDictionary
+                                // The filtering condition is that the recipes containing searchText in their titles.
+                                where recipeId.Value.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                select recipeId.Value;
+        // Initialize a List called ResultRecipes
+        List<Recipe> ResultRecipes = new List<Recipe>();
+        // Iterate each recipe which is filltered
+        foreach(var recipe in ReturnedRecipeID)
+        {
+            // Repeated recipe cannot be added into ResultRecipes.
+            // Only Return each recipe once.
+            if (!ResultRecipes.Contains(recipe))
+            {
+                ResultRecipes.Add(recipe);
+            }
+        }
+
+        return ResultRecipes;
+    }
 
     public IReadOnlyList<Recipe> SearchByIngredient(string searchText) =>
         throw new NotImplementedException("Part B: implement SearchByIngredient.");
