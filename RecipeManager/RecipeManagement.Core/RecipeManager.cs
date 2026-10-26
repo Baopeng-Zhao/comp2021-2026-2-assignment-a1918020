@@ -322,15 +322,15 @@ public sealed class RecipeManager : IRecipeManager
 
     public IReadOnlyList<Recipe> SearchByTitle(string searchText)
     {
-        // Initialize a variable ReturnedRecipeID
-        var ReturnedRecipeID = from recipeId in RecipeDictionary
+        // Initialize a variable ReturnedRecipe
+        var ReturnedRecipes = from recipe in RecipeDictionary
                                 // The filtering condition is that the recipes containing searchText in their titles.
-                                where recipeId.Value.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                                select recipeId.Value;
+                                where recipe.Value.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                                select recipe.Value;
         // Initialize a List called ResultRecipes
         List<Recipe> ResultRecipes = new List<Recipe>();
         // Iterate each recipe which is filltered
-        foreach(var recipe in ReturnedRecipeID)
+        foreach(var recipe in ReturnedRecipes)
         {
             // Repeated recipe cannot be added into ResultRecipes.
             // Only Return each recipe once.
@@ -344,15 +344,15 @@ public sealed class RecipeManager : IRecipeManager
     }
 
     public IReadOnlyList<Recipe> SearchByIngredient(string searchText){
-        // Initialize a variable ReturnedRecipeID
-        var ReturnedRecipeID = from recipeId in RecipeDictionary
+        // Initialize a variable ReturnedRecipes
+        var ReturnedRecipes = from recipe in RecipeDictionary
                                 // The filtering condition is that the recipes containing searchText in their Ingredients.
-                                where recipeId.Value.Ingredients.Any(ingredient=>ingredient.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-                                select recipeId.Value;
+                                where recipe.Value.Ingredients.Any(ingredient=>ingredient.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+                                select recipe.Value;
         // Initialize a List called ResultRecipes
         List<Recipe> ResultRecipes = new List<Recipe>();
         // Iterate each recipe which is filltered
-        foreach(var recipe in ReturnedRecipeID)
+        foreach(var recipe in ReturnedRecipes)
         {
             // Repeated recipe cannot be added into ResultRecipes.
             // Only Return each recipe once.
@@ -367,20 +367,33 @@ public sealed class RecipeManager : IRecipeManager
 
     public IReadOnlyList<Recipe> GetHighestProteinRecipes(int count)
     {
+        // Initialize a List call ResultRecipes
         List<Recipe> ResultRecipes = new List<Recipe>();
+        // Return an empty result when count is zero or negative.
         if(count <= 0)
         {
             return ResultRecipes;
         }
-        var ReturnedRecipeID = from recipeId in RecipeDictionary
-                                where recipeId.Value.Nutrition?.ProteinG != null
-                                orderby recipeId.Value.Nutrition?.ProteinG descending
-                                select recipeId.Value;
+        // Initialize a variable ReturnedRecipes
+        var ReturnedRecipes = from recipe in RecipeDictionary
+                                // The filtering condition is that the recipe nutrition contains Protein
+                                where recipe.Value.Nutrition?.ProteinG != null
+                                // Order by descending protein.
+                                orderby recipe.Value.Nutrition?.ProteinG descending
+                                select recipe.Value;
+        // Initialize a List called SortedRecipes which is used to store sorted recipes
         List<Recipe> SortedRecipes = new List<Recipe>();
-        foreach(var recipeId in ReturnedRecipeID)
+        // Iterate each recipe which is filltered
+        foreach(var recipe in ReturnedRecipes)
         {
-            SortedRecipes.Add(recipeId);
+            SortedRecipes.Add(recipe);
         }
+        // Avoid the input count is more than the number of Recipes which contains protein.
+        if(count > SortedRecipes.Count)
+        {
+            count = SortedRecipes.Count;
+        }
+        // Add recipes from SortedRecipes to ResultRecipes depends on count.
         for(int i = 0; i < count; i++)
         {
             ResultRecipes.Add(SortedRecipes[i]);
