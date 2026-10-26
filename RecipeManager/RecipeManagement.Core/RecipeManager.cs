@@ -466,6 +466,24 @@ public sealed class RecipeManager : IRecipeManager
         // Otherwise return false;
         return false;
     }
-    public IReadOnlyList<int> GetSavedRecipes() =>
-        throw new NotImplementedException("Part B: implement GetSavedRecipes.");
+    /// <summary>
+    ///  Returns the IDs of all saved recipes.
+    /// </summary>
+    /// <returns>a list of saved recipe IDs. If SavedRecipes is empty, return an empty list</returns>
+    public IReadOnlyList<int> GetSavedRecipes()
+    {
+        // Initialize a list called ResultRecipes
+        List<int> ResultRecipes = new List<int>();
+        // If SavedRecipes is empty, return empty list.
+        if(SavedRecipes.Count == 0)
+        {
+            return ResultRecipes;
+        }
+        // Iterate each recipeId in SavedRecipes
+        foreach(int recipeId in SavedRecipes)
+        {
+            ResultRecipes.Add(recipeId);
+        }
+        return ResultRecipes;
+    }
 }
