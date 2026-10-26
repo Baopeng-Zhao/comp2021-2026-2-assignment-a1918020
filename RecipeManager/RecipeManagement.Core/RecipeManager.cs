@@ -320,7 +320,11 @@ public sealed class RecipeManager : IRecipeManager
         // Returns the completed instruction.
         return instruction;
     }
-
+    /// <summary>
+    /// Searches for recipes by title using a case-insensitive partial match.
+    /// </summary>
+    /// <param name="searchText">The text is used to be searched</param>
+    /// <returns>a list of matching recipes</returns>
     public IReadOnlyList<Recipe> SearchByTitle(string searchText)
     {
         // Initialize a variable ReturnedRecipe
@@ -337,6 +341,7 @@ public sealed class RecipeManager : IRecipeManager
             // Only Return each recipe once.
             if (!ResultRecipes.Contains(recipe))
             {
+                // Add recipe to ResultRecipes
                 ResultRecipes.Add(recipe);
             }
         }
@@ -344,6 +349,11 @@ public sealed class RecipeManager : IRecipeManager
         return ResultRecipes;
     }
 
+    /// <summary>
+    /// Searches for recipes by ingredient using a case-insensitive partial match.
+    /// </summary>
+    /// <param name="searchText">The ingredient text is used to be searched.</param>
+    /// <returns>a list of matching recipes</returns>
     public IReadOnlyList<Recipe> SearchByIngredient(string searchText){
         // Initialize a variable ReturnedRecipes
         var ReturnedRecipes = from recipe in RecipeDictionary
@@ -366,6 +376,11 @@ public sealed class RecipeManager : IRecipeManager
         return ResultRecipes;
     }
 
+    /// <summary>
+    /// Returns recipes with the highest protein content in descending order.
+    /// </summary>
+    /// <param name="count">The number of recipes to return</param>
+    /// <returns>a list of recipes ordered by protein content. If the count is zero or negative, return empty list.</returns>
     public IReadOnlyList<Recipe> GetHighestProteinRecipes(int count)
     {
         // Initialize a List call ResultRecipes
@@ -401,6 +416,12 @@ public sealed class RecipeManager : IRecipeManager
         }
         return ResultRecipes;
     }
+
+    /// <summary>
+    /// Adds a recipe to the SavedRecipes
+    /// </summary>
+    /// <param name="recipeId">The Id of the recipe to add</param>
+    /// <returns>True if the recipe is added; otherwise, return false.</returns>
     public bool AddSavedRecipe(int recipeId)
     {
         // AddSavedRecipe returns false for a missing or already-saved recipe
@@ -412,6 +433,12 @@ public sealed class RecipeManager : IRecipeManager
         SavedRecipes.Add(recipeId);
         return true;
     }
+
+    /// <summary>
+    /// Removes a recipe in the SavedRecipes
+    /// </summary>
+    /// <param name="recipeId">The Id of the recipe to remove</param>
+    /// <returns>True if the recipe is removed; otherwise, return false.</returns>
     public bool RemoveSavedRecipe(int recipeId)
     {
         // RemoveSavedRecipe returns false when not saved.
@@ -423,9 +450,22 @@ public sealed class RecipeManager : IRecipeManager
         SavedRecipes.Remove(recipeId);
         return true;
     }
-    public bool IsRecipeSaved(int recipeId) =>
-        throw new NotImplementedException("Part B: implement IsRecipeSaved.");
 
+    /// <summary>
+    /// Checks whether a recipe is saved.
+    /// </summary>
+    /// <param name="recipeId">The Id of the recipe to check</param>
+    /// <returns>True if the recipe is saved; otherwise, return false</returns>
+    public bool IsRecipeSaved(int recipeId)
+    {
+        // Check whether recipe is saved
+        if (SavedRecipes.Contains(recipeId))
+        {
+            return true;
+        }
+        // Otherwise return false;
+        return false;
+    }
     public IReadOnlyList<int> GetSavedRecipes() =>
         throw new NotImplementedException("Part B: implement GetSavedRecipes.");
 }
