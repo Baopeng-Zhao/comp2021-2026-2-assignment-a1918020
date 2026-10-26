@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace RecipeManagement.Core;
 
@@ -400,9 +401,17 @@ public sealed class RecipeManager : IRecipeManager
         }
         return ResultRecipes;
     }
-    public bool AddSavedRecipe(int recipeId) =>
-        throw new NotImplementedException("Part B: implement AddSavedRecipe.");
-
+    public bool AddSavedRecipe(int recipeId)
+    {
+        // AddSavedRecipe returns false for a missing or already-saved recipe
+        if (!RecipeDictionary.ContainsKey(recipeId)||SavedRecipes.Contains(recipeId))
+        {
+            return false;
+        }
+        // Add recipe tp SavedRecipes
+        SavedRecipes.Add(recipeId);
+        return true;
+    }
     public bool RemoveSavedRecipe(int recipeId) =>
         throw new NotImplementedException("Part B: implement RemoveSavedRecipe.");
 
