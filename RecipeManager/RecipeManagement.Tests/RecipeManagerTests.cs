@@ -649,4 +649,30 @@ public sealed class RecipeManagerTests
         Assert.Contains(recipe1, result);
         Assert.Contains(recipe2, result);
     }
+
+    [Fact]
+    public void SearchByTitle_ReturnRecipes_WhenSearchIsCaseInsensitive()
+    {
+        Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        Recipe recipe2 = new Recipe();
+        recipe2.Id = 2;
+        recipe2.Title = "baked potato";
+        Recipe recipe3 = new Recipe();
+        recipe3.Id = 3;
+        recipe3.Title = "fried chips";
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        recipes.Add(recipe2);
+        recipes.Add(recipe3);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        IReadOnlyList<Recipe> result = manager.SearchByTitle("poTAto");
+        
+        Assert.Equal(2, result.Count);
+        Assert.Contains(recipe1, result);
+        Assert.Contains(recipe2, result);
+    }
 }
