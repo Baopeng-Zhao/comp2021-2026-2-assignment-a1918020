@@ -625,7 +625,7 @@ public sealed class RecipeManagerTests
     }
 
     [Fact]
-    public void SearchByIngredient_PartialMatch()
+    public void SearchByTitle_PartialMatch()
     {
         Recipe recipe1 = new Recipe();
         recipe1.Id = 1;
@@ -702,4 +702,7 @@ public sealed class RecipeManagerTests
         Assert.Contains(recipe2, result);
         Assert.Contains(recipe3, result);
     }
+
+    [Fact]
+    public void SearchByIngredient_
 }
