@@ -704,5 +704,31 @@ public sealed class RecipeManagerTests
     }
 
     [Fact]
-    public void SearchByIngredient_
+    public void SearchByIngredient_PartialMatch()
+    {
+         Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
+        Recipe recipe2 = new Recipe();
+        recipe2.Id = 2;
+        recipe2.Title = "baked potato";
+        recipe2.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas", "iron", "laptop"};
+        Recipe recipe3 = new Recipe();
+        recipe3.Id = 3;
+        recipe3.Title = "fried chips";
+        recipe3.Ingredients = new List<string>{"goblin", "witch"};
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        recipes.Add(recipe2);
+        recipes.Add(recipe3);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        IReadOnlyList<Recipe> result = manager.SearchByIngredient("pot");
+        
+        Assert.Equal(2, result.Count);
+        Assert.Contains(recipe1, result);
+        Assert.Contains(recipe2, result);
+    }
 }
