@@ -1060,4 +1060,41 @@ public sealed class RecipeManagerTests
 
         Assert.False(result);
     }
+
+    [Fact]
+    public void IsRecipeSaved_ReturnTrue_WhenRecipeIsSaved()
+    {
+        Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
+        recipe1.Nutrition = new NutritionInfo{ProteinG = 100};
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddSavedRecipe(recipe1.Id);
+        bool result = manager.IsRecipeSaved(recipe1.Id);
+
+        Assert.True(result);
+    }
+
+    [Fact]
+    public void IsRecipeSaved_ReturnFalse_WhenRecipeIsNotSaved()
+    {
+        Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
+        recipe1.Nutrition = new NutritionInfo{ProteinG = 100};
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        bool result = manager.IsRecipeSaved(recipe1.Id);
+
+        Assert.False(result); 
+    }
 }
