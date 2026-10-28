@@ -1131,7 +1131,7 @@ public sealed class RecipeManagerTests
 [Fact]
     public void GetSavedRecipes_RetrunRecipes_WhenRecipesAreSaved()
     {
-         Recipe recipe1 = new Recipe();
+        Recipe recipe1 = new Recipe();
         recipe1.Id = 1;
         recipe1.Title = "cooked potato";
         recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
@@ -1162,5 +1162,50 @@ public sealed class RecipeManagerTests
         Assert.Equal(1,result[0]);
         Assert.Equal(2,result[1]);
         Assert.Equal(3,result[2]);
+    }
+
+    [Fact]
+    public void PartB_IntegratedWorkFlow()
+    {
+        Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
+        recipe1.Nutrition = null;
+        Recipe recipe2 = new Recipe();
+        recipe2.Id = 2;
+        recipe2.Title = "baked potato";
+        recipe2.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas", "iron", "laptop"};
+        recipe2.Nutrition = new NutritionInfo{ProteinG = null};
+        Recipe recipe3 = new Recipe();
+        recipe3.Id = 3;
+        recipe3.Title = "fried chips";
+        recipe3.Ingredients = new List<string>{"goblin", "witch"};
+        recipe3.Nutrition = new NutritionInfo{ProteinG = 100000000};
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        recipes.Add(recipe2);
+        recipes.Add(recipe3);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        // PartB function
+        IReadOnlyList<Recipe> result = manager.SearchByTitle("potato");
+        Assert.Equal(2,result.Count);
+        // PartA function
+        Assert.Equal(recipe1, manager.FindRecipe(1));
+        // PartB function
+        Assert.True(manager.AddSavedRecipe(1));
+        Assert.True(manager.IsRecipeSaved(1));
+        Assert.False(manager.IsRecipeSaved(2));
+        // PartA function
+        Assert.Equal(recipe2, manager.FindRecipe(2));
+        // PartB function
+        Assert.True(manager.AddSavedRecipe(3));
+        Assert.True(manager.IsRecipeSaved(3));
+        Assert.True(manager.RemoveSavedRecipe(3));
+        Assert.False(manager.IsRecipeSaved(3));
+        Assert.True(manager.RemoveSavedRecipe(1));
+        Assert.Empty(manager.GetSavedRecipes());
     }
 }
