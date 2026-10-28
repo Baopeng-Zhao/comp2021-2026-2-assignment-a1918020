@@ -1097,4 +1097,70 @@ public sealed class RecipeManagerTests
 
         Assert.False(result); 
     }
+
+    [Fact]
+    public void GetSavedRecipes_RetrunEmpty_WhenNoRecipesAreSaved()
+    {
+         Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
+        recipe1.Nutrition = null;
+        Recipe recipe2 = new Recipe();
+        recipe2.Id = 2;
+        recipe2.Title = "baked potato";
+        recipe2.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas", "iron", "laptop"};
+        recipe2.Nutrition = new NutritionInfo{ProteinG = null};
+        Recipe recipe3 = new Recipe();
+        recipe3.Id = 3;
+        recipe3.Title = "fried chips";
+        recipe3.Ingredients = new List<string>{"goblin", "witch"};
+        recipe3.Nutrition = new NutritionInfo{ProteinG = 100000000};
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        recipes.Add(recipe2);
+        recipes.Add(recipe3);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        IReadOnlyList<int> result = manager.GetSavedRecipes();
+
+        Assert.Empty(result);
+    }
+
+[Fact]
+    public void GetSavedRecipes_RetrunRecipes_WhenRecipesAreSaved()
+    {
+         Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
+        recipe1.Nutrition = null;
+        Recipe recipe2 = new Recipe();
+        recipe2.Id = 2;
+        recipe2.Title = "baked potato";
+        recipe2.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas", "iron", "laptop"};
+        recipe2.Nutrition = new NutritionInfo{ProteinG = null};
+        Recipe recipe3 = new Recipe();
+        recipe3.Id = 3;
+        recipe3.Title = "fried chips";
+        recipe3.Ingredients = new List<string>{"goblin", "witch"};
+        recipe3.Nutrition = new NutritionInfo{ProteinG = 100000000};
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        recipes.Add(recipe2);
+        recipes.Add(recipe3);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        manager.AddSavedRecipe(recipe1.Id);
+        manager.AddSavedRecipe(recipe2.Id);
+        manager.AddSavedRecipe(recipe3.Id);
+        IReadOnlyList<int> result = manager.GetSavedRecipes();
+
+        Assert.Equal(3, result.Count);
+        Assert.Equal(1,result[0]);
+        Assert.Equal(2,result[1]);
+        Assert.Equal(3,result[2]);
+    }
 }
