@@ -918,7 +918,7 @@ public sealed class RecipeManagerTests
     }
 
     [Fact]
-    public void GetHighestProteinRecipes_ReturnsEmptyList_WhenCountIsMoreThanAllRecipes()
+    public void GetHighestProteinRecipes_ReturnsAllRecipes_WhenCountIsMoreThanAllRecipes()
     {
          Recipe recipe1 = new Recipe();
         recipe1.Id = 1;
