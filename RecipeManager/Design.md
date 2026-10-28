@@ -24,4 +24,4 @@ Answer: The Part B features utilize the RecipeManager and RecipeDictionary that 
 | Traverse cooking plan | LinkedList | O(n) | Each planned recipe may need to be visited. |
 | Complete next instruction | Queue | O(1) | The item at the front is removed. |
 | LINQ title/ingredient search | Recipe collection | O(n) | Each recipe may need to be inspected. |
-| Check whether a recipe is saved | List | O(n) | Contains() checks every recipe IDs until it find matched one |
+| Check whether a recipe is saved | List | O(n) | Contains() checks each saved recipe ID until a match is found. |

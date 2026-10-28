@@ -38,3 +38,8 @@ Until you implement `RecipeManager`, menu options print a **Not implemented** me
 ## AI acknowledgement
 
 Include the required AI acknowledgement statement in your submission as described in the assignment specification.
+
+COMP2021 Assignment
+AI acknowledgement:  I used [ChatGPT] to help me understand [xUnit Code Execution Guidelines, Check for logical errors in the XUnit tests and the details of LinkedList]. I did not copy or adapt AI-generated code or other material into my submission. In PartB, I use [ChatGPT] to review the Checklists, method requirements and xunit tests for the tests. It helps me check the code and provide the test situations.
+
+I developed the submitted solutionmyself based on my understanding of the course material
