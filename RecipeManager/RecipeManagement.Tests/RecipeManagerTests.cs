@@ -986,7 +986,7 @@ public sealed class RecipeManagerTests
         Assert.False(result);
     }
     [Fact]
-    public void AddSavedRecipe_ReturnsTrue_WhenRecipeIsAlreadySaved()
+    public void AddSavedRecipe_ReturnsFalse_WhenRecipeIsAlreadySaved()
     {
         Recipe recipe1 = new Recipe();
         recipe1.Id = 1;
