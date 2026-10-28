@@ -793,4 +793,36 @@ public sealed class RecipeManagerTests
         Assert.Equal(recipe2, result[1]);
         Assert.Equal(recipe1, result[2]);
     }
+
+    [Fact]
+    public void GetHighestProteinRecipes_ReturnsTwoRecipes_WhenCountIsTwo()
+    {
+         Recipe recipe1 = new Recipe();
+        recipe1.Id = 1;
+        recipe1.Title = "cooked potato";
+        recipe1.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas"};
+        recipe1.Nutrition = new NutritionInfo{ProteinG = 100};
+        Recipe recipe2 = new Recipe();
+        recipe2.Id = 2;
+        recipe2.Title = "baked potato";
+        recipe2.Ingredients = new List<string>{"potato", "water", "oil", "bomb", "gas", "iron", "laptop"};
+        recipe2.Nutrition = new NutritionInfo{ProteinG = 1000};
+        Recipe recipe3 = new Recipe();
+        recipe3.Id = 3;
+        recipe3.Title = "fried chips";
+        recipe3.Ingredients = new List<string>{"goblin", "witch"};
+        recipe3.Nutrition = new NutritionInfo{ProteinG = 100000000};
+
+        List<Recipe> recipes = new List<Recipe>();
+        recipes.Add(recipe1);
+        recipes.Add(recipe2);
+        recipes.Add(recipe3);
+
+        RecipeManager manager = new RecipeManager(recipes);
+        IReadOnlyList<Recipe> result = manager.GetHighestProteinRecipes(2);
+
+        Assert.Equal(2, result.Count);
+        Assert.Equal(recipe3, result[0]);
+        Assert.Equal(recipe2, result[1]);
+    }
 }
